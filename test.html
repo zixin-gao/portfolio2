@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alice Gao — Robotics & Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ── Root Variables ── */
+        :root {
+            --pink-light: #FFD1DC;
+            --pink-medium: #FFB7C5;
+            --cream: #FFF5F7;
+            --lavender: #E6E6FA;
+            --mint: #B5EAD7;
+            --coral: #FF6B8A;
+            --dusty-rose: #D4A5A5;
+            --text-dark: #5C4A4A;
+            --text-soft: #8B7B7B;
+            --text-light: #A89B9B;
+            --glass-bg: rgba(255, 245, 247, 0.75);
+        }
+
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── Paper Texture Overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.6;
+        }
+
+        /* ── Floating Music Notes ── */
+        .music-note {
+            position: fixed;
+            font-size: 1.5rem;
+            color: var(--pink-medium);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatNote 12s ease-in-out infinite;
+        }
+        .music-note:nth-child(1) {
+            top: 10%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+        .music-note:nth-child(2) {
+            top: 25%;
+            right: 12%;
+            animation-delay: 2s;
+            font-size: 2rem;
+        }
+        .music-note:nth-child(3) {
+            top: 50%;
+            left: 5%;
+            animation-delay: 4s;
+        }
+        .music-note:nth-child(4) {
+            top: 70%;
+            right: 8%;
+            animation-delay: 1s;
+            font-size: 1.8rem;
+        }
+        .music-note:nth-child(5) {
+            top: 15%;
+            left: 85%;
+            animation-delay: 3s;
+        }
+        .music-note:nth-child(6) {
+            top: 85%;
+            left: 20%;
+            animation-delay: 5s;
+            font-size: 2.2rem;
+        }
+        .music-note:nth-child(7) {
+            top: 40%;
+            right: 5%;
+            animation-delay: 6s;
+        }
+        .music-note:nth-child(8) {
+            top: 60%;
+            left: 90%;
+            animation-delay: 7s;
+        }
+
+        @keyframes floatNote {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.12;
+            }
+            25% {
+                transform: translateY(-20px) rotate(5deg);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translateY(-10px) rotate(-3deg);
+                opacity: 0.15;
+            }
+            75% {
+                transform: translateY(-30px) rotate(8deg);
+                opacity: 0.18;
+            }
+        }
+
+        /* ── Watercolor Blob Decorations ── */
+        .watercolor-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--pink-light) 40%, var(--lavender) 70%, var(--cream) 100%);
+        }
+
+        .hero .watercolor-blob.blob-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--pink-medium);
+            top: -100px;
+            right: -100px;
+        }
+        .hero .watercolor-blob.blob-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--mint);
+            bottom: -50px;
+            left: -50px;
+        }
+        .hero .watercolor-blob.blob-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--lavender);
+            top: 40%;
+            left: 10%;
+        }
+
+        /* Mascot Animals */
+        .mascot {
+            position: absolute;
+            font-size: 3.5rem;
+            opacity: 0.7;
+            filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.08));
+            animation: gentleBounce 4s ease-in-out infinite;
+        }
+        .mascot.bunny {
+            top: 15%;
+            left: 12%;
+            animation-delay: 0s;
+        }
+        .mascot.fox {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
+        .mascot.bear {
+            top: 60%;
+            left: 8%;
+            animation-delay: 3s;
+            font-size: 2.8rem;
+        }
+
+        @keyframes gentleBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+        }
+
+        .hero-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            color: var(--coral);
+            text-shadow: 3px 3px 0px rgba(255, 183, 197, 0.3);
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            color: var(--text-soft);
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--lavender);
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(230, 230, 250, 0.5);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(230, 230, 250, 0.7);
+            background: #d8d8f5;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--coral);
+            border-color: var(--pink-medium);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: var(--pink-light);
+            border-color: var(--coral);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-soft);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 183, 197, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-4px) scale(1.1);
+            background: var(--pink-light);
+            color: var(--coral);
+            box-shadow: 0 6px 20px rgba(255, 183, 197, 0.4);
+        }
+
+        .social-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── STICKY NAVIGATION ── */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(92, 74, 74, 0.08);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid rgba(255, 183, 197, 0.2);
+        }
+
+        .sticky-nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--coral);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-soft);
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 0.3rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--coral);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--coral);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ── SECTION STYLES (merged: full-width + min-height) ── */
+        section {
+            padding: 6rem 2rem;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--coral);
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink-medium), var(--lavender));
+            margin: 0.8rem auto 0;
+            border-radius: 3px;
+        }
+
+        /* ── PROJECTS SECTION ── */
+        #projects {
+            background: linear-gradient(180deg, var(--cream) 0%, rgba(255, 209, 220, 0.15) 100%);
+        }
+
+        .projects-instruction {
+            margin: -2.5rem auto 2.5rem;
+            color: var(--text-soft);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                gap: 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 183, 197, 0.25);
+            box-shadow: 0 8px 32px rgba(92, 74, 74, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--pink-light), var(--lavender), var(--mint));
+            border-radius: 26px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(92, 74, 74, 0.12);
+        }
+        .project-card:hover::before {
+            opacity: 0.5;
+            filter: blur(8px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--lavender) 0%, var(--pink-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'/%3E%3C/svg%3E");
+            background-size: 80px;
+            opacity: 0.3;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .tag-python {
+            background: rgba(181, 234, 215, 0.5);
+        }
+        .tag-ros {
+            background: rgba(230, 230, 250, 0.6);
+        }
+        .tag-ai {
+            background: rgba(255, 209, 220, 0.6);
+        }
+        .tag-hardware {
+            background: rgba(255, 183, 197, 0.4);
+        }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(92, 74, 74, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: var(--cream);
+            border-radius: 24px;
+            max-width: 1100px;
+            width: 94%;
+            max-height: 85vh;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 183, 197, 0.3);
+            box-shadow: 0 25px 80px rgba(92, 74, 74, 0.2);
+        }
+
+        .modal-content {
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--pink-light);
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--coral);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--coral);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--coral);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, var(--lavender), var(--mint));
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .modal-media {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-media:empty,
+        .modal-links:empty {
+            display: none;
+        }
+
+        .modal-media img,
+        .modal-media video {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 360px;
+            display: block;
+            border-radius: 16px;
+        }
+
+        .modal-media-item {
+            width: fit-content;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        .modal-links-section {
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-links-section:has(.modal-links:empty) {
+            display: none;
+        }
+
+        .modal-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .modal-link {
+            padding: 0.7rem 1rem;
+            border-radius: 50px;
+            background: var(--lavender);
+            color: var(--text-dark);
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .modal-link:hover {
+            background: var(--pink-light);
+            transform: translateY(-2px);
+        }
+
+        .modal p {
+            color: var(--text-soft);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .modal-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .modal-section h3 {
+            color: var(--text-dark);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .modal-section p {
+            margin-bottom: 0;
+        }
+
+        .modal-description {
+            margin-bottom: 0;
+        }
+
+        /* ── RESUME / TIMELINE ── */
+        #resume {
+            background: linear-gradient(180deg, rgba(255, 209, 220, 0.15) 0%, var(--cream) 100%);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--pink-medium), var(--lavender), var(--mint));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            padding-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        .timeline-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .timeline-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        .timeline-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--coral);
+            border: 4px solid var(--cream);
+            box-shadow: 0 0 0 3px var(--pink-medium);
+        }
+
+        .timeline-item:nth-child(2) .timeline-dot {
+            background: var(--lavender);
+            box-shadow: 0 0 0 3px #d0d0f0;
+        }
+        .timeline-item:nth-child(3) .timeline-dot {
+            background: var(--mint);
+            box-shadow: 0 0 0 3px #a0e8d0;
+        }
+        .timeline-item:nth-child(4) .timeline-dot {
+            background: var(--pink-medium);
+            box-shadow: 0 0 0 3px #ffc0cb;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 1.8rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 183, 197, 0.2);
+            box-shadow: 0 4px 20px rgba(92, 74, 74, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(92, 74, 74, 0.1);
+        }
+
+        .timeline-role {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-date {
+            font-style: italic;
+            color: var(--coral);
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .timeline-location {
+            color: var(--text-soft);
+            font-size: 0.82rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .timeline-desc {
+            font-size: 0.88rem;
+            color: var(--text-soft);
+            line-height: 1.7;
+            margin: 0;
+            padding-left: 1.2rem;
+            list-style-position: outside;
+        }
+
+        .timeline-desc li {
+            margin-bottom: 0.35rem;
+        }
+
+        .timeline-desc li:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-desc + .timeline-role {
+            margin-top: 1.2rem;
+        }
+
+        /* ── DESIGNS / ART PORTFOLIO ── */
+        #designs {
+            background: linear-gradient(180deg, rgba(255, 209, 220, 0.15) 0%, var(--cream) 45%, rgba(255, 209, 220, 0.2) 100%);
+        }
+
+        .designs-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 183, 197, 0.25);
+            box-shadow: inset 0 2px 20px rgba(92, 74, 74, 0.05), 0 8px 32px rgba(92, 74, 74, 0.06);
+            padding: 2rem;
+            height: 900px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .designs-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .designs-container::-webkit-scrollbar-track {
+            background: rgba(255, 183, 197, 0.1);
+            border-radius: 4px;
+        }
+        .designs-container::-webkit-scrollbar-thumb {
+            background: var(--pink-medium);
+            border-radius: 4px;
+        }
+
+        .designs-gallery {
+            column-count: 2;
+            column-gap: 1.5rem;
+        }
+
+        .design-item {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            break-inside: avoid;
+            background: linear-gradient(135deg, var(--pink-light), var(--lavender));
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .design-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .design-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 30 Q30 10 50 30 Q30 50 10 30' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'/%3E%3C/svg%3E");
+            background-size: 60px;
+            opacity: 0.4;
+        }
+
+        .design-item:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 10px 30px rgba(92, 74, 74, 0.15);
+        }
+
+        .design-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            z-index: 1;
+        }
+
+        .design-label {
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        /* ── AWARDS & CERTIFICATES ── */
+        #awards {
+            background: linear-gradient(180deg, var(--cream) 0%, rgba(255, 209, 220, 0.15) 100%);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        .awards-heading {
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .awards-kicker {
+            color: var(--coral);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .awards-intro {
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        .awards-board {
+            max-width: 900px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255, 183, 197, 0.35);
+        }
+
+        .award-entry {
+            display: grid;
+            grid-template-columns: 90px 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 183, 197, 0.3);
+        }
+
+        .award-year {
+            color: var(--coral);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+        }
+
+        .award-name {
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+        }
+
+        .award-issuer {
+            color: var(--text-soft);
+            font-size: 0.85rem;
+        }
+
+        .award-description {
+            margin-top: 0.6rem;
+            color: var(--text-soft);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .award-seal {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--mint);
+            border-radius: 50%;
+            color: var(--mint);
+            font-size: 1.1rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, var(--cream), var(--pink-light));
+            color: var(--text-soft);
+            font-size: 0.9rem;
+        }
+
+        footer .heart {
+            color: var(--coral);
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            15% {
+                transform: scale(1.2);
+            }
+            30% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.15);
+            }
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .mascot {
+                font-size: 2rem !important;
+            }
+            .mascot.bunny {
+                top: 8%;
+                left: 5%;
+            }
+            .mascot.fox {
+                bottom: 10%;
+                right: 5%;
+            }
+            .timeline {
+                padding-left: 1rem;
+            }
+            .timeline-item {
+                padding-left: 2rem;
+            }
+            section {
+                padding: 4rem 1.2rem;
+            }
+            .designs-container {
+                height: 700px;
+                padding: 1.2rem;
+            }
+            .award-entry {
+                grid-template-columns: 62px 1fr auto;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="watercolor-blob blob-1"></div>
+        <div class="watercolor-blob blob-2"></div>
+        <div class="watercolor-blob blob-3"></div>
+
+        <div class="mascot bunny">🐰</div>
+        <div class="mascot fox">🦊</div>
+        <div class="mascot bear">🧸</div>
+
+        <div class="hero-content">
+            <h1 class="hero-name">Alice Gao</h1>
+            <p class="hero-subtitle">Engineering Science (Robotics) Student @ University of Toronto</p>
+
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#resume" class="btn btn-secondary">Resume</a>
+            </div>
+
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/alice-zixin-gao/" target="_blank" class="social-icon" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="https://github.com/zixin-gao" target="_blank" class="social-icon" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="mailto:alicee.gao@mail.utoronto.ca" class="social-icon" aria-label="Email">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STICKY NAVIGATION -->
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">Alice Gao</a>
+            <ul class="nav-links">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#resume">Resume</a></li>
+                <li><a href="#awards">Awards &amp; Certificates</a></li>
+                <li><a href="#designs">Designs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="reveal">
+        <h2 class="section-title">Projects</h2>
+        <p class="projects-instruction">" Click onto the cards to find out more! "</p>
+        <div class="projects-grid">
+            <div class="project-card" onclick="openModal('Automatic Card Dealer', '', 
+            [{ type: 'image', src: 'images/PCB_final.jpg', alt: 'PCB final' }, { type: 'image', src: 'images/PCB_assembled.png', alt: 'PCB assembled' }, { type: 'image', src: 'images/card_dealer.jpg', alt: 'PCB assembled' }], 
+            [{ label: 'PCB GitHub', url: 'https://github.com/zixin-gao/card_dealer_pcb' }], 
+            [{ heading: 'Power Management', text: 'The PCB was designed to accommodate the different power requirements of the motors and logic components. A SY8120IABC buck regulator was integrated with resistor feedback network and capacitors to generate a regulated 5 V rail. A separate 3.3 V regulator was removed to reduce PCB footprint and component count, since the ESP32-S3 development board already provides a regulated 3.3 V output that can directly power low-voltage peripherals such as the OLED display.'},{ heading: 'Motor Control', text: 'A DRV8833 motor driver interface connects the ESP32-S3 to the external DC motor responsible for driving the gearing and rotating the sticky wheels that physically push cards out of the deck. Since a DRV8833 module was already available and its compact size made integrating the IC unnecessary, the PCB provides dedicated header pins for connecting the existing driver.\nTo allow circular rotation so that the dealer can turn to different angles for card dealing, the PCB integrates a ULN2003AN transistor array to drive a 5-wire stepper motor. Rather than using a conventional ULN2003 breakout board, the driver was implemented directly on the PCB. This eliminates unnecessary indicator LEDs found on common breakout boards, reducing board space.'},{ heading: 'Expansion Interface', text: 'A dedicated 10-pin expansion header provides additional GPIO and power connections for future sensors, controls, or peripherals. This allows the system to be expanded without requiring a complete PCB redesign, making the board adaptable to future iterations of the card-dealing mechanism.'},])">
+                <div class="project-image"><img src="images/PCB 3d.png" alt="PCB"></div>
+                <div class="project-content">
+                    <h3 class="project-title">Automatic Card Dealer</h3>
+                    <p class="project-desc">This PCB runs an automatic card dealer: an ESP32‑S3 chip controls the motors to deal cards, uses an IR sensor to detect each card, and shows system status on a small OLED screen. A buck converter on board keeps the motors running smoothly, and users can change dealing modes either by turning a physical rotary encoder or wirelessly over WiFi.</p>
+                    <div class="project-tags">
+                        <span class="tag tag-ros">PCB</span>
+                        <span class="tag tag-python">C++</span>
+                        <span class="tag tag-hardware"># Personal Project</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="openModal('Lazer Following Lamp', '', 
+            [{ type: 'video', src: 'videos/lelamp.mp4', mimeType: 'video/mp4', alt: 'Laser-following lamp demonstration' }], 
+            [{ label: 'GitHub', url: 'https://github.com/zixin-gao/Lamp' }], 
+            [{ heading: 'Computer Vision', text: 'An OpenCV detection pipeline processes video frames in real time, converting images to grayscale to identify regions above a configurable intensity threshold.' },
+            { heading: 'Laser Detection', text: 'Binary thresholding isolates the high-intensity laser spot, and the coordinates of detected pixels are used to calculate a bounding box around the laser position.' },
+            { heading: 'Motor Control', text: 'Multiple servo motors are integrated and tuned to control the lamp\'s movement across different axes, with motor configurations and movement responses tested to achieve reliable laser tracking.' },
+            { heading: 'Mechanical Design', text: 'The existing lamp CAD model was adapted to create a more rigid and stable base, improving mechanical support and reducing unwanted movement during servo operation.' }],)">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--lavender), var(--mint));"><img src="images\lamp.png" alt="lamp"></div>
+                <div class="project-content">
+                    <h3 class="project-title">Lazer Following Lamp</h3>
+                    <p class="project-desc">A laser-following lamp that uses computer vision to detect a laser pointer and rotate the lamp toward it.</p>
+                    <div class="project-tags">
+                        <span class="tag tag-hardware">CAD</span>
+                        <span class="tag tag-python">Python</span>
+                        <span class="tag tag-python">OpenCV</span>
+                        <span class="tag tag-python"># Personal Project</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="openModal('Firefighter Bot - Wabot', 'The Wabot is a prototype of the robotic mitigation unit designed to autonomously navigate towards an active fire, confirm its location using sensors, and deliver water to extinguish the fire upon arrival. A colour sensor was used as a simplified substitute for fire detection. In this implementation, red paper is placed on the ground to act as a proxy target, allowing the system to simulate fire detection and response behaviour.', 
+            [{ type: 'image', src: 'images/wabot detail.png', alt: 'Wabot detail' }, { type: 'video', src: 'videos/wabot testing.mp4', mimeType: 'video/mp4', alt: 'Wabot testing video' }], 
+            [{ label: 'GitHub', url: 'https://github.com/yyxnlin/wabot' }, { label: 'CAD Files', url: 'https://drive.google.com/drive/folders/1nuT9e9dpDd5zkngmmcbam6f73WjpEuXK?usp=sharing'}], 
+            [{ heading: 'Obstacle Detection', text: 'Obstacle detection is handled by ultrasonic sensors placed on the left, center, and right of the robot. The robot autonomously adjusts its direction of movement based on which sensor is triggered, enabling reactive navigation around obstacles.'},
+            { heading: 'Mobility System', text: 'Each of the two rubber wheels is driven independently by a DC motor through a motor driver, with movement decisions based on ultrasonic sensor outputs. A caster wheel provides a third point of contact, stabilizing the platform without affecting steering.' },
+            { heading: 'Colour Sensor and Water Pump', text: 'A downward-facing colour sensor mounted at the front detects red colour. When red is detected, the robot stops moving and activates the water pump system. The pump system consists of a plastic bottle reservoir mounted upright on the chassis, with a latex glove fitted over the open top to prevent spillage during movement. A DC motor-powered pump, controlled by a relay, pressurizes water in the reservoir and delivers it through flexible tubing guided to the front by the 3D-printed overhead cover.' },
+            { heading: 'Chassis and Enclosure', text: 'The chassis is laser-cut from plywood and serves as the structural base, housing the electronics and wheels. An overhead cover is mounted above the chassis using vertical standoffs, providing protection and guiding the water tubing.' }],)">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--mint), var(--pink-light));"><img src="images\wabot-removebg-preview.png" alt="Wabot"></div>
+                <div class="project-content">
+                    <h3 class="project-title">Firefighter Robot - Wabot</h3>
+                    <p class="project-desc">Autonomous robot designed for obstacle avoidance and navigation, "fire" (red) detection, and a pump system to activate water spraying upon identifying red targets.</p>
+                    <div class="project-tags">
+                        <span class="tag tag-python">Sensors</span>
+                        <span class="tag tag-hardware">C++</span>
+                        <span class="tag tag-hardware"># Course Project</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="openModal('Flippy the Color Tracer', 'The robot uses two IR sensors to detect and track the position of a colored line, continuously adjusting its motor outputs to maintain reliable movement along the path. A dedicated color sensor was also incorporated to identify the target line color, allowing the robot to distinguish between red and green paths and selectively follow the specified color. ', 
+            [{ type: 'video', src: 'videos/flippy testing.mp4', mimeType: 'video/mp4', alt: 'flippy testing video' }], 
+            [{ label: 'GitHub', url: 'https://github.com/zixin-gao/UTRA_Hacks_Team_78' }, { label: 'DevPost', url: 'https://devpost.com/software/flippy-floppy'}])">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--pink-medium), var(--lavender));"><img src="images\flippy_the_bot-removebg-preview.png" alt="flippy"></div>
+                <div class="project-content">
+                    <h3 class="project-title">Flippy the Color Tracer</h3>
+                    <p class="project-desc">A line-following robot built during a two-day hackathon using Arduino. Reliably follows colored lines while adapting its behavior based on the detected track.</p>
+                    <div class="project-tags">
+                        <span class="tag tag-ros">C++</span>
+                        <span class="tag tag-ai">Arduino</span>
+                        <span class="tag tag-python"># Hackathon Project</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="openModal('Discord Podcast Bot - LoudLARS', '', 
+            [{ type: 'video', src: 'videos/LoudLARS Demo Video.mp4', mimeType: 'video/mp4', alt: 'Wabot testing video' }], 
+            [{ label: 'GitHub', url: 'https://github.com/zixin-gao/higgs-audio' }], 
+            [
+            { heading: 'Discord Bot Backend', text: 'A Python-based Discord bot was developed to continuously capture server messages and store structured conversation data—including usernames, message content, and reaction counts—in date-specific JSON logs.' },
+            { heading: 'Data Processing', text: 'Preprocessing logic was built to reconstruct readable conversations from JSON logs and incorporate message reactions as contextual signals for identifying notable messages.' },
+            { heading: 'LLM Integration', text: 'An OpenAI‑compatible API client was implemented to interface with Boson AI’s hackathon endpoint, passing the day’s conversation history to an LLM with structured prompts that identify the five funniest messages and generate a podcast‑style script.' },
+            { heading: 'AI/Audio Integration', text: 'Higgs Audio was integrated for expressive text‑to‑speech and voice synthesis, converting the generated script into a multi‑speaker podcast instead of returning plain text.' }],)">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--pink-light), var(--coral));"><img src="images\LoudLARS.png" alt="loudLARS"></div>
+                <div class="project-content">
+                    <h3 class="project-title">Discord Podcast Bot - LoudLARS</h3>
+                    <p class="project-desc">Discord bot that generates a podcast about the top five moments of your Discord server chat and reads it out to you in your OWN VOICE!! # mindblown 🤯</p>
+                    <div class="project-tags">
+                        <span class="tag tag-ai">AI</span>
+                        <span class="tag tag-python">Python</span>
+                        <span class="tag tag-ros"># Hackathon Project</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="openModal('Wristband for Vibrotactile Feedback', 'The system is designed to mount to a prosthetic device and provide users with intuitive tactile feedback by converting measured force into vibration. The enclosure was engineered to fit a LiPo battery, customized PCB, and LCD display within a compact 7 cm × 4 cm × 3 cm form factor, while maintaining accessibility for assembly and component integration.', 
+            [{ type: 'image', src: 'images/wristband2.png', alt: 'wristband2' }, { type: 'image', src: 'images/wristband3.png', alt: 'wristband3' }], 
+            [{ label: 'Related Experiment Github', url: 'https://github.com/zixin-gao/Data-Analysis-Automation-for-Post-FTT-Experiment' }],
+            [{ heading: 'Mechanical Design Choices', text: 'The enclosure was developed as a three-part resin-printed assembly, with each section serving a specific functional purpose: the bottom compartment houses the LiPo battery, the middle section securely supports and protects the custom PCB, and the top section encloses the LCD and provides access to the user interface buttons. Extrusions with holes on the underside allow commercially available watch straps to attach directly to the custom enclosure through metal pins. This approach enabled the electronics to be packaged into a wearable form factor while maintaining a practical, adjustable interface for everyday use.'}],)">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--mint), var(--cream))"><img src="images\wristband_1.png" alt="wristband1"></div>
+                <div class="project-content">
+                    <h3 class="project-title">Wristband for Vibrotactile Feedback</h3>
+                    <p class="project-desc">Designed a compact wearable wristband for vibrotactile feedback in assistive robotics, integrating a LiPo battery, LCD screen, a custom PCB, and an on-off botton within a 7 cm × 4 cm × 3 cm enclosure to ensure comfortable and unobtrusive wear.</p>
+                    <div class="project-tags">
+                        <span class="tag tag-hardware">Resin Printing</span>
+                        <span class="tag tag-ai">CAD</span>
+                        <span class="tag tag-python"># Research Project </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESUME / EXPERIENCE SECTION -->
+    <section id="resume" class="reveal">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-role">ECE Executive @ Spark Design Club</h3>
+                    <span class="timeline-date">April 2026 – Present</span>
+                    <span class="timeline-location">Toronto, ON, Canada</span>
+                    <ul class="timeline-desc">
+                        <li>Co-developed the concept and mechanical architecture for <strong>Crater Crawl</strong>, a multiplayer game with rotating controls and interactive volcanic obstacles.</li>
+                        <li>Brainstormed preliminary <strong>CAD models</strong> for the wheel-based player controls.</li>
+                        <li>Developed a <strong>PID-based force-feedback control model</strong> to build realistic steering experience.</li>
+                        <li>Selected motors and drive components based on <strong>torque, speed, and gearing requirements</strong>.</li>
+                    </ul>
+    
+                    <h3 class="timeline-role">ECE Member @ Spark Design Club</h3>
+                    <span class="timeline-date">Sep 2025 – April 2026</span>
+                    <span class="timeline-location">Toronto, ON, Canada</span>
+                    <ul class="timeline-desc">
+                        <li>Designed a hardware-based <strong>Whack-A-Mole</strong> featuring motorized moles and <strong>real-time user input</strong>.</li>
+                        <li>Developed <strong>C++ code</strong> with AS5600 <strong>magnetic encoders</strong> for precise <strong>motor position tracking</strong>.</li>
+                        <li>Resolved <strong>I<sup>2</sup>C address conflicts</strong> with bidirectional multiplexer, enabling multiple encoders on one bus.</li>
+                        <li>Implemented <strong>interrupt-driven motor control</strong> with PID in <strong>Arduino</strong> to improve responsiveness and <strong>minimize polling overhead</strong>, reducing game gitterness and improving user experience.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-role">First Year Engineering Events Organizer @ UofT</h3>
+                    <span class="timeline-date">June 2026 – Sep 2026</span>
+                    <span class="timeline-location">Toronto, ON, Canada</span>
+                    <ul class="timeline-desc">
+                        <li><strong>Designed the framework for a faculty-wide engineering design challenge</strong>, defining objectives, rules, judging criteria, prizes, and logistics for incoming students.</li>
+                        <li><strong>Developed and facilitated interactive virtual programming</strong> on residence life, design teams, research, campus resources, and university transition.</li>
+                        <li><strong>Collaborated with peer mentors and First Year Office staff</strong> to plan and adapt summer programming based on student engagement.</li>
+                        <li>Contributed to <strong>record-setting summer participation</strong> through interactive mentorship and community-building initiatives.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-role">Clothes Sale Agenic AI Research Student @ HKUST</h3>
+                    <span class="timeline-date">May 2026 – Aug 2026</span>
+                    <span class="timeline-location">Hong Kong, China</span>
+                    <ul class="timeline-desc">
+                        <li><strong>Architected a parallel multi-worker scraping pipeline</strong> with Python threading and queues, processing <strong>10,000+ product pages</strong> and reducing runtime by <strong>60%+</strong>.</li>
+                        <li>Engineered resilient <strong>Playwright</strong> browser automation with dynamic-content handling, timeout recovery, redirect detection, and adaptive navigation.</li>
+                        <li>Built remote browser infrastructure with <strong>SSH tunneling and headless Chrome</strong>, enabling scalable scraping from remote Linux servers.</li>
+                        <li>Designed a <strong>SQLite ETL pipeline</strong> to structure <strong>20+ product attributes</strong> with incremental processing and reliable storage.</li>
+                        <li>Prototyped a <strong>LangGraph multi-agent AI architecture</strong> with asynchronous job queues for parallel image analysis and structured LLM outputs.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-role">Prosthetics Research Student @ Decisionics</h3>
+                    <span class="timeline-date">May 2025 – Sep 2025</span>
+                    <span class="timeline-location">Toronto, ON, Canada</span>
+                    <ul class="timeline-desc">
+                        <li>Designed and implemented a foraging-style behavioral task based on literature to compare sensor-on and sensor-off conditions, achieving <strong>80% correlation</strong> between sensory feedback and task performance.</li>
+                        <li><strong>Modified the ASTM D5228 standard</strong> to evaluate <strong>Mode-I fracture toughness</strong> of fused filament fabrication materials, <strong>3D printed</strong> standardized specimens using Prusa and collected test data using MTS TestSuite.</li>
+                        <li>Developed an <strong>OpenCV</strong> and <strong>Pandas-backed</strong> image analysis pipeline to track crack propagation over time, improving <strong>measurement precision</strong> and reducing time for evaluating 3D-printed material strength.</li>
+                        <li>Designed and iterated a custom, wrist-worn <strong>PCB housing in SolidWorks</strong> to integrate a PCB, LED display, and battery, reducing enclosure volume by <strong>30%</strong> and improving wearability through <strong>resin printing</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AWARDS & CERTIFICATES SECTION -->
+    <section id="awards" class="reveal">
+        <div class="awards-heading">
+            <h2 class="section-title">Awards &amp; Certificates</h2>
+        </div>
+        <div class="awards-board">
+            <article class="award-entry">
+                <span class="award-year">2025</span>
+                <div>
+                    <h3 class="award-name">First Year Summer Research Fellowship Award</h3>
+                    <p class="award-issuer">University of Toronto</p>
+                    <p class="award-description">Research award valued at $7000 to support first-year students to gain summer experience in a research setting.</p>
+                </div>
+                <span class="award-seal" aria-hidden="true">✧</span>
+            </article>
+
+            <article class="award-entry">
+                <span class="award-year">2024</span>
+                <div>
+                    <h3 class="award-name">International Scholar Award</h3>
+                    <p class="award-issuer">University of Toronto</p>
+                    <p class="award-description">Awarded to exceptional international students with a total value of $100,000.</p>
+                </div>
+                <span class="award-seal" aria-hidden="true">✦</span>
+            </article>
+
+            <article class="award-entry">
+                <span class="award-year">2022</span>
+                <div>
+                    <h3 class="award-name">Governor General's Award</h3>
+                    <p class="award-issuer">Merivale High School</p>
+                    <p class="award-description">Awarded to the student graduating with the highest average.</p>
+                </div>
+                <span class="award-seal" aria-hidden="true">✧</span>
+            </article>
+
+            <article class="award-entry">
+                <span class="award-year">2022</span>
+                <div>
+                    <h3 class="award-name">Diplôme Approfondi de Langue Française (DALF) C1</h3>
+                    <p class="award-issuer">France Éducation international</p>
+                    <p class="award-description">Official diploma issued by the French Ministry of National Education that certifies fluent, autonomous, and sophisticated proficiency in French.</p>
+                </div>
+                <span class="award-seal" aria-hidden="true">✦</span>
+            </article>
+        </div>
+    </section>
+
+    <!-- DESIGNS / ART PORTFOLIO SECTION -->
+    <section id="designs" class="reveal">
+        <h2 class="section-title">Designs</h2>
+        <div class="designs-container">
+            <div class="designs-gallery">
+                <div class="design-item">
+                    <span class="design-icon"><img src="designs/design_logo.png" alt="logo"></span>
+                    <span class="design-label">Logo</span>
+                </div> 
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--lavender), var(--mint));">
+                    <span class="design-icon"><img src="designs\dad.jpg" alt="dad"></span>
+                    <span class="design-label">Drawing for dad</span>
+                </div>              
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--mint), var(--cream));">
+                    <span class="design-icon"><img src="designs/PraxisII.png" alt="praxisII"></span>
+                    <span class="design-label">SoilSense Poster (Credits @ Praxis II Team)</span>
+                </div>        
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--lavender), var(--pink-light));">
+                    <span class="design-icon"><img src="designs/praxisIII.png" alt="praxisIII"></span>
+                    <span class="design-label">Wabot Poster (Credits @ Praxis III Team)</span>
+                </div>
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--cream), var(--mint));">
+                    <span class="design-icon"><img src="designs/SKULEsurfers.jpg" alt="surfers"></span>
+                    <span class="design-label">SKULE surfers design idea</span>
+                </div>
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--coral), var(--pink-light));">
+                    <span class="design-icon"><img src="designs/poster1.png" alt="poster1"></span>
+                    <span class="design-label">Crafty Hours Poster - Holiday Card Edition</span>
+                </div>
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--pink-medium), var(--lavender));">
+                    <span class="design-icon"><img src="designs/fox.jpg" alt="fox"></span>
+                    <span class="design-label">Nick the Fox from Zootopia</span>
+                </div>  
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--mint), var(--pink-medium));">
+                    <span class="design-icon"><img src="designs/poster2.png" alt="poster2"></span>
+                    <span class="design-label">Crafty Hours Poster - Valentines Day Edition</span>
+                </div>
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--pink-light), var(--lavender));">
+                    <span class="design-icon"><img src="designs\rabbit.jpg" alt="rabbit"></span>
+                    <span class="design-label">Rabbit from Zootopia</span>
+                </div>
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--lavender), var(--coral));">
+                    <span class="design-icon"><img src="designs/poster3.png" alt="poster3"></span>
+                    <span class="design-label">Crafty Hours Poster - Rock Painting Edition</span>
+                </div>
+
+                <div class="design-item" style="background: linear-gradient(135deg, var(--cream), var(--pink-medium));">
+                    <span class="design-icon"><img src="designs/poster4.png" alt="poster4"></span>
+                    <span class="design-label">Crafty Hours Poster - First Session</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Made with <span class="heart">♥</span> by Alice Gao &mdash; 2026</p>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-content">
+                <div class="modal-media" id="modalMedia"></div>
+                <h2 id="modalTitle">Project Title</h2>
+                <div class="modal-links-section">
+                    <div class="modal-links" id="modalLinks"></div>
+                </div>
+                <p class="modal-description" id="modalDesc">Project description goes here.</p>
+                <div class="modal-sections" id="modalSections"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── Sticky Nav: appears immediately on any downward scroll ──
+        const stickyNav = document.getElementById('stickyNav');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 0) {
+                stickyNav.classList.add('visible');
+            } else {
+                stickyNav.classList.remove('visible');
+            }
+        });
+
+        // ── Scroll Reveal ──
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ── Modal ──
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalMedia = document.getElementById('modalMedia');
+        const modalSections = document.getElementById('modalSections');
+        const modalLinks = document.getElementById('modalLinks');
+
+        function openModal(title, desc, media = [], links = [], sections = []) {
+            modalTitle.textContent = title;
+            modalDesc.textContent = desc;
+            modalDesc.hidden = !desc;
+            modalMedia.replaceChildren();
+            modalSections.replaceChildren();
+            modalLinks.replaceChildren();
+
+            media.forEach(item => {
+                const mediaFrame = document.createElement('div');
+                mediaFrame.className = 'modal-media-item';
+                const element = document.createElement(item.type === 'video' ? 'video' : 'img');
+                element.alt = item.alt || title;
+
+                if (item.type === 'video') {
+                    element.controls = true;
+                    element.preload = 'metadata';
+                    element.playsInline = true;
+
+                    const source = document.createElement('source');
+                    source.src = item.src;
+                    source.type = item.mimeType || 'video/mp4';
+                    element.appendChild(source);
+
+                    const fallback = document.createElement('p');
+                    fallback.textContent = 'This video could not be played. Download the MP4 to view it.';
+                    element.appendChild(fallback);
+                    element.load();
+                } else {
+                    element.src = item.src;
+                }
+
+                mediaFrame.appendChild(element);
+                modalMedia.appendChild(mediaFrame);
+            });
+
+            sections.forEach(section => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'modal-section';
+
+                const heading = document.createElement('h3');
+                heading.textContent = section.heading;
+                sectionElement.appendChild(heading);
+
+                const paragraph = document.createElement('p');
+                paragraph.textContent = section.text;
+                sectionElement.appendChild(paragraph);
+
+                modalSections.appendChild(sectionElement);
+            });
+
+            links.forEach(link => {
+                const anchor = document.createElement('a');
+                anchor.className = 'modal-link';
+                anchor.href = link.url;
+                anchor.textContent = link.label;
+                anchor.target = '_blank';
+                anchor.rel = 'noopener noreferrer';
+                modalLinks.appendChild(anchor);
+            });
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if (!e || e.target === modalOverlay || e.target.closest('.modal-close')) {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ── Smooth scroll for nav links ──
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ── Parallax effect for mascots ──
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.mascot').forEach((mascot, i) => {
+                const speed = 0.1 + (i * 0.05);
+                mascot.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+
+</body>
+</html>
